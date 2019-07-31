@@ -1,0 +1,17 @@
+{
+  "name": "harmonized-viewer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielboisseau-archivescanada/harmonized-viewer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielboisseau-archivescanada/harmonized-viewer/issues"
+  },
+  "homepage": "https://github.com/gabrielboisseau-archivescanada/harmonized-viewer#readme"
+}
