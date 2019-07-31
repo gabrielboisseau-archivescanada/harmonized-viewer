@@ -1,0 +1,80 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+
+},{}],2:[function(require,module,exports){
+
+var fs = require("fs");
+
+(function ($, window, document, undefined) {
+
+	"use strict";
+
+	// undefined is used here as the undefined global variable in ECMAScript 3 is
+	// mutable (ie. it can be changed by someone else). undefined isn't really being
+	// passed in so we can ensure the value of it is truly undefined. In ES5, undefined
+	// can no longer be modified.
+
+	// window and document are passed through as local variables rather than global
+	// as this (slightly) quickens the resolution process and can be more efficiently
+	// minified (especially when both are regularly referenced in your plugin).
+
+	// Default plugin settings
+	var pluginName = "harmonizedViewer",
+		defaults = {
+			propertyName: "value"
+		};
+
+	var $header;
+	//var $toolbar;
+
+	// The actual plugin constructor
+	function Plugin(element, options) {
+		this.element = element;
+
+		// jQuery has an extend method which merges the contents of two or
+		// more objects, storing the result in the first object. The first object
+		// is generally empty as we don't want to alter the default options for
+		// future instances of the plugin
+		this.settings = $.extend({}, defaults, options);
+		this._defaults = defaults;
+		this._name = pluginName;
+		this.init();
+	}
+
+	// Avoid Plugin.prototype conflicts
+	$.extend(Plugin.prototype, {
+		init: function () {
+
+			// Place initialization logic here
+			// You already have access to the DOM element and
+			// the options via the instance, e.g. this.element
+			// and this.settings
+			// you can add more functions like the one below and
+			// call them like the example below
+			//this.yourOtherFunction( "jQuery Boilerplate1112" );
+
+			$header = $("<div></div>").addClass("harmonized-viewer-header").appendTo(this.element);
+
+			fs.readFile("./index.html", function (err, html) {
+				alert(html);
+			});
+
+		},
+		yourOtherFunction: function (text) {
+
+			// some logic
+			$(this.element).text(text);
+		}
+	});
+
+	$.fn.harmonizedViewer = function (options) {
+		return this.each(function () {
+			if (!$.data(this, "plugin_" + pluginName)) {
+				$.data(this, "plugin_" +
+					pluginName, new Plugin(this, options));
+			}
+		});
+	};
+
+})(jQuery, window, document);
+
+},{"fs":1}]},{},[2]);

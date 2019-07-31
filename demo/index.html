@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>jQuery Boilerplate</title>
+
+	<style type="text/css">
+		html,
+		body {
+			height: 100%;
+		}
+
+		body {
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+
+	<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+	<!--
+	<script src="../node_modules/handlebars/dist/handlebars.js"></script>
+	<script src="../node_modules/openseadragon/build/openseadragon/openseadragon.js"></script> -->
+	<script src="../src/harmonized-viewer.js"></script>
+	<link href="../dist/main.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css" />
+	<script src="//cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
+</head>
+
+<body>
+	<div id="av" class="harmonized-viewer" style="height:100%">
+		<div class="harmonized-viewer-header"></div>
+		<nav class="harmonized-viewer-toolbar navbar navbar-expand-lg">
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a href="javascript:;" class="harmonized-viewer-toolbar-button nav-link" title="Go home">
+							<span class="material-icons">home</span>
+						</a>
+					</li>
+					<li class="separator"></li>
+					<li class="nav-item">
+						<a href="javascript:;" class="harmonized-viewer-toolbar-button nav-link" title="Fullscreen">
+							<span class="material-icons">fullscreen</span>
+						</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="harmonized-viewer-toolbar-zoom nav-item" style="width:175px">
+						<input type="text" id="example_id" name="example_name" value="" />
+					</li>
+					<li class="nav-item">
+						<a href="javascript:;" class="harmonized-viewer-toolbar-button nav-link" title="Toggle sidebar">
+							<span class="material-icons">vertical_split</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="harmonized-viewer-body">
+			<div id="openseadragon1" class="harmonized-viewer-viewport"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function () {
+			$("#example_id").ionRangeSlider({
+				skin: "round",
+				min: 0,
+				max: 100,
+				hide_min_max: true,
+				hide_from_to: true
+			});
+			var viewer = OpenSeadragon({
+				id: "openseadragon1",
+				prefixUrl: "../node_modules/openseadragon/build/openseadragon/images/",
+				tileSources: "https://openseadragon.github.io/example-images/highsmith/highsmith.dzi",
+				showNavigator: true,
+				navigatorPosition: "BOTTOM_RIGHT",
+				showNavigationControl: false
+			});
+
+			// $(window).resize(function () {
+			// 	console.log('res');
+			// 	var viewportHeight = $(this).innerHeight();
+			// 	$(this).find('.harmonized-viewer .harmonized-viewer-viewport').height(viewportHeight);
+			// });
+
+			$('#av').harmonizedViewer({
+				propertyName: "a custom value"
+			});
+		});
+	</script>
+</body>
+
+</html>
