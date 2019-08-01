@@ -30,7 +30,7 @@ $prefix: harmonized-viewer;
 
     &-button {
       text-decoration: none;
-      border: none;
+      border: transparent 1px solid;
       border-radius: 2px;
       background: transparent;
 
@@ -45,22 +45,22 @@ $prefix: harmonized-viewer;
       }
 
       &.active {
-        -webkit-animation: shadow-inset-center 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         animation: shadow-inset-center 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        border-color: #bbb;
         background: #d9d8d9;
       }
     }
 
     &-button:hover {
       cursor: pointer;
-      transition: background-color linear 0.2s;
       background: #d9d8d9;
+      transition: background-color linear 0.2s;
     }
 
     &-button:active {
       color: #3c3c3c;
+      border-color: #bbb;
       background: #d9d8d9;
-      -webkit-animation: shadow-inset-center 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
       animation: shadow-inset-center 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
 
@@ -93,11 +93,36 @@ $prefix: harmonized-viewer;
     }
   }
 
-  & &-body {
+  & &-main {
     flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .error {
+      display: flex;
+      flex-flow: column;
+      text-align: center;
+
+      &-icon {
+        display: block;
+        cursor: default;
+        user-select: none;
+        color: rgba(0, 0, 0, 0.15);
+        font-size: 5rem;
+        margin-bottom: 1rem;
+      }
+
+      &-text {
+        display: block;
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
   }
 
   & &-viewport {
+    flex: 1;
     height: 100%;
   }
 
@@ -105,14 +130,6 @@ $prefix: harmonized-viewer;
     outline: none;
   }
 
-  @-webkit-keyframes shadow-inset-center {
-    0% {
-      box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
-    }
-    100% {
-      box-shadow: inset 0 0 14px 0px rgba(0, 0, 0, 0.2);
-    }
-  }
   @keyframes shadow-inset-center {
     0% {
       box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0);
@@ -122,5 +139,42 @@ $prefix: harmonized-viewer;
     }
   }
 
-  @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+  .spinner {
+    animation: rotate 2s linear infinite;
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -25px;
+    width: 50px;
+    height: 50px;
+  }
+  .spinner .path {
+    stroke: #3a87f2;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 150;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -124;
+    }
+  }
 }
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";

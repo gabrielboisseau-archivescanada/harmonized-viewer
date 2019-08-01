@@ -18,9 +18,7 @@
 	</style>
 
 	<script src="../node_modules/jquery/dist/jquery.min.js"></script>
-	<!--
-	<script src="../node_modules/handlebars/dist/handlebars.js"></script>
-	<script src="../node_modules/openseadragon/build/openseadragon/openseadragon.js"></script> -->
+	<script src="../dist/vendors/all.js"></script>
 	<script src="../src/harmonized-viewer.js"></script>
 	<link href="../dist/main.css" rel="stylesheet" type="text/css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -31,6 +29,11 @@
 
 <body>
 	<div id="av" class="harmonized-viewer" style="height:100%">
+		<div class="harmonized-viewer-spinner">
+			<svg class="spinner" viewBox="0 0 50 50">
+				<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+			</svg>
+		</div>
 		<div class="harmonized-viewer-header"></div>
 		<nav class="harmonized-viewer-toolbar navbar navbar-expand-lg">
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -59,28 +62,12 @@
 				</ul>
 			</div>
 		</nav>
-		<div class="harmonized-viewer-body">
+		<div class="harmonized-viewer-main">
 			<div id="openseadragon1" class="harmonized-viewer-viewport"></div>
 		</div>
 	</div>
 	<script type="text/javascript">
 		$(function () {
-			$("#example_id").ionRangeSlider({
-				skin: "round",
-				min: 0,
-				max: 100,
-				hide_min_max: true,
-				hide_from_to: true
-			});
-			var viewer = OpenSeadragon({
-				id: "openseadragon1",
-				prefixUrl: "../node_modules/openseadragon/build/openseadragon/images/",
-				tileSources: "https://openseadragon.github.io/example-images/highsmith/highsmith.dzi",
-				showNavigator: true,
-				navigatorPosition: "BOTTOM_RIGHT",
-				showNavigationControl: false
-			});
-
 			// $(window).resize(function () {
 			// 	console.log('res');
 			// 	var viewportHeight = $(this).innerHeight();

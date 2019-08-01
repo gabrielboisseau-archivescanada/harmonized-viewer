@@ -1,7 +1,5 @@
 
-var fs = require("fs");
-
-(function ($, window, document, undefined) {
+; (function ($, window, document, undefined) {
 
 	"use strict";
 
@@ -20,8 +18,12 @@ var fs = require("fs");
 			propertyName: "value"
 		};
 
-	var $header;
-	//var $toolbar;
+	var openseadragon;
+
+	var zoomSlider;
+	var $zoomSlider;
+	var isZoomSliderActive = false;
+	//var zoomSliderValue;
 
 	// The actual plugin constructor
 	function Plugin(element, options) {
@@ -49,10 +51,78 @@ var fs = require("fs");
 			// call them like the example below
 			//this.yourOtherFunction( "jQuery Boilerplate1112" );
 
-			$header = $("<div></div>").addClass("harmonized-viewer-header").appendTo(this.element);
+			console.log("init");
 
-			fs.readFile("./index.html", function (err, html) {
-				alert(html);
+			var self = this;
+
+			$zoomSlider = $("#example_id");
+			zoomSlider = $zoomSlider.ionRangeSlider({
+				skin: "round",
+				min: 0,
+				max: 100,
+				step: 1,
+				hide_min_max: true,
+				hide_from_to: true,
+				onFinish: function () {
+					console.log("slider finish");
+					isZoomSliderActive = false;
+				}
+			}).data("ionRangeSlider");
+
+			$(document).on("mousedown", "#av .irs-handle", function () {
+				console.log("slider start");
+				isZoomSliderActive = true;
+			});
+
+			$zoomSlider.on("change", function () {
+				if (isZoomSliderActive === true) {
+					var zoom = $(this).prop("value");
+					openseadragon.viewport.zoomTo(zoom);
+				}
+			});
+
+			openseadragon = new OpenSeadragon({
+				id: "openseadragon1",
+				prefixUrl: "../node_modules/openseadragon/build/openseadragon/images/",
+				tileSources: "https://openseadragon.github.io/example-images/highsmith/highsmith.dzi",
+				showNavigator: true,
+				navigatorPosition: "BOTTOM_RIGHT",
+				showNavigationControl: false
+			});
+
+			openseadragon.addHandler("open", function () {
+				$(self.element).find(".spinner").hide();
+
+				var minZoom = openseadragon.viewport.getMinZoom();
+				var maxZoom = openseadragon.viewport.getMaxZoom();
+
+				zoomSlider.update({ min: minZoom, max: maxZoom, step: (maxZoom / 100) });
+			});
+			openseadragon.addHandler("open-failed", function () {
+				$(self.element).find(".spinner").hide();
+				$(openseadragon.element).hide();
+				self.errror();
+			});
+
+			openseadragon.addHandler("animation", function () {
+				if (isZoomSliderActive === false) {
+					self.updateZoom();
+				}
+			});
+
+			//subscribe to 'myEventStart'
+			$(this.element).bind("myEventStart", function () {
+				console.log("event start");
+				openseadragon.viewport.goHome();
+			});
+
+			//subscribe to 'myEventEnd'
+			$(this.element).bind("myEventEnd", function () {
+				console.log("event end");
+			});
+
+			$(this.element).find(".harmonized-viewer-toolbar-button").eq(0).on("click", function () {
+				$(this).trigger("myEventStart");
 			});
 
 		},
@@ -60,6 +130,25 @@ var fs = require("fs");
 
 			// some logic
 			$(this.element).text(text);
+		},
+
+		updateZoom: function () {
+
+			// Get current and target zoom values (before and after animations)
+			var current = openseadragon.viewport.getZoom(true);
+			var target = openseadragon.viewport.getZoom(false);
+
+			var zoomSliderValue = $zoomSlider.prop("value");
+
+			// Don't update the slider when slider value is equal to target zoom value
+			if (zoomSliderValue !== target) {
+				zoomSlider.update({ from: current });
+			}
+		},
+
+		errror: function () {
+			var $error = $("<div class=\"error\"><span class=\"error-icon material-icons\">error_outline</span><div class=\"error-text\">An unexpected error occurred.<br />Please try again later.</div></div>");
+			$(this.element).find(".harmonized-viewer").append($error);
 		}
 	});
 

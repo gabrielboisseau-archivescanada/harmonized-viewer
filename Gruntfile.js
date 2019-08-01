@@ -9,10 +9,27 @@ module.exports = function (grunt) {
 		// Import package manifest
 		pkg: grunt.file.readJSON("package.json"),
 
+		copy: {
+			dist: {
+				files: [
+					{
+						expand: true,
+						cwd: 'node_modules/openseadragon/build/openseadragon',
+						src: 'openseadragon.min.js',
+						dest: 'dist/vendors'
+					}
+				]
+			}
+		},
+
 		// Concat definitions
 		concat: {
+			vendors: {
+				src: ['dist/vendors/*.js'],
+				dest: "dist/vendors/all.js"
+			},
 			dist: {
-				src: ["public/app.js", "public/vendor.js"],
+				src: ['src/**/*.js'],
 				dest: "dist/harmonized-viewer.js"
 			}
 		},
@@ -56,25 +73,22 @@ module.exports = function (grunt) {
 		},
 
 		// Browserify definitions
-		browserify: {
-			vendor: {
-				src: [],
-				dest: 'public/vendor.js',
-				options: {
-					require: ['jquery'],
-					alias: {
-						
-					}
-				}
-			},
-			client: {
-				src: ['src/**/*.js'],
-				dest: 'public/app.js',
-				options: {
-					external: ['jquery'],
-				}
-			}
-		},
+		// browserify: {
+		// 	vendor: {
+		// 		src: [],
+		// 		dest: 'public/vendor.js',
+		// 		options: {
+		// 			require: ['fs', 'jquery']
+		// 		}
+		// 	},
+		// 	client: {
+		// 		src: ['src/**/*.js'],
+		// 		dest: 'public/app.js',
+		// 		options: {
+		// 			external: ['jquery'],
+		// 		}
+		// 	}
+		// },
 
 		// karma test runner
 		karma: {
@@ -98,15 +112,17 @@ module.exports = function (grunt) {
 
 	grunt.loadNpmTasks("grunt-sass");
 	grunt.loadNpmTasks("grunt-contrib-concat");
+	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-jscs");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	//grunt.loadNpmTasks( "grunt-contrib-coffee" );
 	grunt.loadNpmTasks("grunt-contrib-watch");
 	grunt.loadNpmTasks("grunt-karma");
-	grunt.loadNpmTasks("grunt-browserify");
+	//grunt.loadNpmTasks('grunt-package-modules');
+	//grunt.loadNpmTasks("grunt-browserify");
 
 	grunt.registerTask("lint", ["jshint", "jscs"]);
-	grunt.registerTask("build", ["browserify", "concat", "uglify", "sass"]);
+	grunt.registerTask("build", ["copy", "concat", "uglify", "sass"]);
 	grunt.registerTask("default", ["jshint", "build"]);
 };
