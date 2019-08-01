@@ -55,14 +55,14 @@
       top: 12px;
       width: 20px;
       height: 20px;
-      border-color: #6c6c6c;
-      border-width: 3px; }
-  .harmonized-viewer .harmonized-viewer-main {
-    flex: 1;
+      border: none;
+      background-color: #fff; }
+  .harmonized-viewer .harmonized-viewer-columns {
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center; }
+    display: flex; }
+  .harmonized-viewer .harmonized-viewer-main {
+    flex: 3;
+    height: 100%; }
     .harmonized-viewer .harmonized-viewer-main .error {
       display: flex;
       flex-flow: column;
@@ -82,6 +82,9 @@
     height: 100%; }
   .harmonized-viewer .openseadragon-canvas {
     outline: none; }
+  .harmonized-viewer .harmonized-viewer-metadata {
+    flex: 1 0 0;
+    background: #fff; }
 
 @keyframes shadow-inset-center {
   0% {

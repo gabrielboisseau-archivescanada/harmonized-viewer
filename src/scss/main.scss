@@ -88,17 +88,19 @@ $prefix: harmonized-viewer;
       top: 12px;
       width: 20px;
       height: 20px;
-      border-color: #6c6c6c;
-      border-width: 3px;
+      border: none;
+      background-color: #fff;
     }
   }
 
-  & &-main {
-    flex: 1;
+  & &-columns {
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+  }
+
+  & &-main {
+    flex: 3;
+    height: 100%;
 
     .error {
       display: flex;
@@ -128,6 +130,11 @@ $prefix: harmonized-viewer;
 
   .openseadragon-canvas {
     outline: none;
+  }
+
+  & &-metadata {
+    flex: 1 0 0;
+    background: #fff;
   }
 
   @keyframes shadow-inset-center {
